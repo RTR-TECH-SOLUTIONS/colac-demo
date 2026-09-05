@@ -3,6 +3,15 @@
 Demo pentru pitch la client: **Mihai Colac**, cabinet de avocatură, București. Astro 7 + Tailwind 4, output
 static. Poate crește direct în proiectul real, fără rescriere.
 
+## Link live
+
+https://rtr-tech-solutions.github.io/colac-demo/
+
+Se publică automat: orice push pe `main` declanșează `.github/workflows/deploy.yml`, care
+face build și urcă pe GitHub Pages. Site-ul stă la subcalea `/colac-demo/`, de aceea
+`astro.config.mjs` are `base` setat, iar linkurile interne trec prin `src/lib/url.ts`.
+Dacă se schimbă numele repo-ului, se schimbă `base` în același loc.
+
 ## Rulare
 
 ```bash
