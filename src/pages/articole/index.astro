@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import { articles, site } from "../../data/site";
 import articolImg from "../../assets/articol.jpg";
+import { url } from "../../lib/url";
 ---
 
 <Layout
@@ -13,7 +14,7 @@ import articolImg from "../../assets/articol.jpg";
   <header class="bg-ink-950">
     <div class="wrap py-16 lg:py-24">
       <nav class="text-[14px] text-muted" aria-label="Firimituri">
-        <a href="/" class="underline-offset-4 hover:text-paper hover:underline">Acasă</a>
+        <a href={url("/")} class="underline-offset-4 hover:text-paper hover:underline">Acasă</a>
         <span class="px-2 text-paper/25">/</span>
         <span class="text-paper/70">Articole</span>
       </nav>
@@ -31,7 +32,7 @@ import articolImg from "../../assets/articol.jpg";
         {articles.map((a, i) => (
           <li class="reveal border-t border-ink-900/15 last:border-b">
             <a
-              href={`/articole/${a.slug}`}
+              href={url(`/articole/${a.slug}`)}
               class="group grid gap-6 py-10 md:grid-cols-[minmax(0,16rem)_1fr] md:gap-12"
             >
               {i === 0 ? (

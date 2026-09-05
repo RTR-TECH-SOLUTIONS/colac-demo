@@ -1,0 +1,3 @@
+[  430479ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:4324/@vite/client:1736
+[  431559ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4324/articole:0
+[  431632ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4324/favicon.ico:0

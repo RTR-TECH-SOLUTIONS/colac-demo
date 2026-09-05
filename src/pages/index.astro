@@ -12,6 +12,7 @@ import {
   fees,
   cases,
 } from "../data/site";
+import { url } from "../lib/url";
 
 import hero from "../assets/hero.jpg";
 import avocat from "../assets/avocat.jpg";
@@ -144,7 +145,7 @@ const steps = [
         {practices.map((p) => (
           <li class="reveal border-t border-ink-900/15 last:border-b">
             <a
-              href={`/domenii/${p.slug}`}
+              href={url(`/domenii/${p.slug}`)}
               class="group grid grid-cols-[auto_1fr] items-start gap-x-6 gap-y-3 py-7 transition-colors hover:bg-ink-900/[0.035] md:grid-cols-[auto_minmax(0,15rem)_1fr_auto] md:items-center md:gap-x-10 md:px-3"
             >
               <span class="serif w-8 pt-1 text-[15px] text-brass-500 md:pt-0">{p.num}</span>
@@ -404,7 +405,7 @@ const steps = [
       <div class="reveal flex flex-wrap items-end justify-between gap-6">
         <h2 class="text-[clamp(2rem,4vw,3rem)]">Articole</h2>
         <a
-          href="/articole"
+          href={url("/articole")}
           class="text-[15px] text-brass-500 underline-offset-4 hover:underline"
         >
           Toate articolele
@@ -413,7 +414,7 @@ const steps = [
 
       <div class="mt-14 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
         <article class="reveal">
-          <a href={`/articole/${articles[0].slug}`} class="group block">
+          <a href={url(`/articole/${articles[0].slug}`)} class="group block">
             <Image
               src={articolImg}
               alt="Semnarea unui act pe un birou de lemn"
@@ -440,7 +441,7 @@ const steps = [
         <div class="lg:pt-2">
           {articles.slice(1).map((a) => (
             <article class="reveal border-t border-ink-900/15 py-8 last:border-b">
-              <a href={`/articole/${a.slug}`} class="group block">
+              <a href={url(`/articole/${a.slug}`)} class="group block">
                 <p class="text-[13.5px] text-ink-900/60">
                   {a.tag} <span class="text-ink-900/30">·</span> {a.date}
                   <span class="text-ink-900/30">·</span> {a.read} de citit

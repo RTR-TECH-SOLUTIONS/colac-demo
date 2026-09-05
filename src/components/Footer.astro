@@ -1,5 +1,6 @@
 ---
 import { site, practices } from "../data/site";
+import { url } from "../lib/url";
 const year = new Date().getFullYear();
 ---
 
@@ -28,7 +29,7 @@ const year = new Date().getFullYear();
         {practices.slice(0, 6).map((p) => (
           <li>
             <a
-              href={`/domenii/${p.slug}`}
+              href={url(`/domenii/${p.slug}`)}
               class="text-[15px] text-paper/70 transition-colors hover:text-paper"
             >
               {p.title}

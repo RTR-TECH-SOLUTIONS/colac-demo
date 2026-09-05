@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://rtr-tech-solutions.github.io',
+  base: '/colac-demo',
   vite: {
     plugins: [tailwindcss()]
   }

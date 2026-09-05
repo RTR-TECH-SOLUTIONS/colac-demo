@@ -1,19 +1,20 @@
 ---
 import { site } from "../data/site";
+import { url } from "../lib/url";
 
 const nav = [
-  { href: "/#domenii", label: "Domenii" },
-  { href: "/#despre", label: "Despre" },
-  { href: "/#proces", label: "Cum lucrăm" },
-  { href: "/#onorarii", label: "Onorarii" },
-  { href: "/#articole", label: "Articole" },
-  { href: "/#contact", label: "Contact" },
+  { href: url("/#domenii"), label: "Domenii" },
+  { href: url("/#despre"), label: "Despre" },
+  { href: url("/#proces"), label: "Cum lucrăm" },
+  { href: url("/#onorarii"), label: "Onorarii" },
+  { href: url("/#articole"), label: "Articole" },
+  { href: url("/#contact"), label: "Contact" },
 ];
 ---
 
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-colors duration-300">
   <div class="wrap flex items-center justify-between" style="height: var(--header-h)">
-    <a href="/" class="group flex items-baseline gap-2.5" aria-label="Acasă">
+    <a href={url("/")} class="group flex items-baseline gap-2.5" aria-label="Acasă">
       <span class="serif whitespace-nowrap text-[22px] tracking-[0.14em] text-paper">{site.wordmark}</span>
       <span class="hidden whitespace-nowrap text-[11px] uppercase tracking-[0.18em] text-muted 2xl:inline">
         cabinet de avocatură
@@ -39,7 +40,7 @@ const nav = [
         {site.phone}
       </a>
       <a
-        href="/#contact"
+        href={url("/#contact")}
         class="hidden whitespace-nowrap rounded-[10px] bg-brass-500 px-5 py-2.5 text-[14px] font-medium text-ink-950 transition-colors hover:bg-brass-400 md:inline-block"
       >
         Programează<span class="hidden xl:inline"> o consultație</span>
@@ -100,7 +101,7 @@ const nav = [
 
   <div class="wrap mt-8 flex flex-col gap-3">
     <a
-      href="/#contact"
+      href={url("/#contact")}
       data-close-menu
       class="rounded-[10px] bg-brass-500 px-5 py-3.5 text-center font-medium text-ink-950"
     >
