@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { articles, site } from "../../data/site";
+import articolImg from "../../assets/articol.jpg";
+---
+
+<Layout
+  title={`Articole — Cabinet de avocatură ${site.name}, București`}
+  description="Ghiduri scurte pe termene, costuri și pași concreți: executări silite, drept penal, dreptul familiei și dreptul muncii."
+  offsetHeader
+>
+  <header class="bg-ink-950">
+    <div class="wrap py-16 lg:py-24">
+      <nav class="text-[14px] text-muted" aria-label="Firimituri">
+        <a href="/" class="underline-offset-4 hover:text-paper hover:underline">Acasă</a>
+        <span class="px-2 text-paper/25">/</span>
+        <span class="text-paper/70">Articole</span>
+      </nav>
+      <h1 class="mt-10 max-w-[20ch] text-[clamp(2.4rem,5.5vw,4rem)]">Articole</h1>
+      <p class="mt-7 max-w-[58ch] text-[18px] leading-relaxed text-paper/70">
+        Scriem despre lucrurile pe care le explicăm oricum la telefon de câteva ori pe
+        săptămână: ce termen curge, ce acte trebuie, cât durează și cât costă.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-paper text-ink-900">
+    <div class="wrap py-20 lg:py-24">
+      <ul>
+        {articles.map((a, i) => (
+          <li class="reveal border-t border-ink-900/15 last:border-b">
+            <a
+              href={`/articole/${a.slug}`}
+              class="group grid gap-6 py-10 md:grid-cols-[minmax(0,16rem)_1fr] md:gap-12"
+            >
+              {i === 0 ? (
+                <Image
+                  src={articolImg}
+                  alt="Semnarea unui act pe un birou de lemn"
+                  widths={[400, 700]}
+                  sizes="(max-width: 768px) 100vw, 16rem"
+                  class="aspect-[3/2] w-full rounded-card object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <p class="serif hidden text-[15px] text-brass-500 md:block">{a.tag}</p>
+              )}
+              <div>
+                <p class="text-[13.5px] text-ink-900/60">
+                  {a.tag} <span class="text-ink-900/30">·</span> {a.date}
+                  <span class="text-ink-900/30">·</span> {a.read} de citit
+                </p>
+                <h2 class="mt-3 max-w-[30ch] text-[clamp(1.4rem,2.4vw,1.9rem)] leading-snug underline-offset-4 group-hover:underline">
+                  {a.title}
+                </h2>
+                <p class="mt-3 max-w-[62ch] text-[16px] leading-relaxed text-ink-900/70">
+                  {a.excerpt}
+                </p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

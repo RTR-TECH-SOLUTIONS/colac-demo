@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/* Fonturi self-hosted: fără cerere către Google Fonts (mai rapid, fără transfer de IP către terți) */
+@import "@fontsource/spectral/latin-400.css";
+@import "@fontsource/spectral/latin-ext-400.css";
+@import "@fontsource/spectral/latin-400-italic.css";
+@import "@fontsource/spectral/latin-ext-400-italic.css";
+@import "@fontsource-variable/archivo/index.css";
+
+/* ---------------------------------------------------------------
+   Cabinet de avocatură Colac — design tokens
+   Paletă: cerneală verde-închis + un singur accent (alamă).
+   Tipografie: Spectral (titluri) + Archivo (text).
+--------------------------------------------------------------- */
+@theme {
+  --color-ink-950: #0b100f;
+  --color-ink-900: #101615;
+  --color-ink-800: #161e1c;
+  --color-ink-700: #1e2825;
+  --color-ink-600: #2a3532;
+
+  --color-paper: #f6f3ed;
+  --color-paper-2: #ece7dd;
+  --color-paper-3: #ddd5c7;
+
+  --color-brass-500: #b08a48;
+  --color-brass-600: #8a6a31;
+  --color-brass-400: #c4a068;
+  --color-brass-300: #d8bd90;
+
+  --color-muted: #8c9793;
+  --color-muted-dark: #5d6763;
+
+  --font-serif: "Spectral", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 10px;
+}
+
+:root {
+  --header-h: 84px;
+  color-scheme: dark;
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 68px; }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, .serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+::selection { background: var(--color-brass-500); color: var(--color-ink-950); }
+
+:focus-visible {
+  outline: 2px solid var(--color-brass-400);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Utilitare mici, folosite des */
+@utility wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@utility rule {
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+}
+
+/* Intrare discretă la scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Săgeata proprie pentru select (appearance-none o scoate pe cea nativă) */
+.select-caret {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23b08a48' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.select-caret option { background: #101615; }
+
+/* Săgeata pentru select-urile de pe fond deschis */
+.caret-ink {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23101615' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}

@@ -1,0 +1,118 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { practices, site } from "../../data/site";
+import sediu from "../../assets/sediu.jpg";
+
+export function getStaticPaths() {
+  return practices.map((p) => ({
+    params: { slug: p.slug },
+    props: { practice: p },
+  }));
+}
+
+const { practice } = Astro.props;
+const others = practices.filter((p) => p.slug !== practice.slug).slice(0, 4);
+---
+
+<Layout
+  title={`${practice.title} — Cabinet de avocatură ${site.name}, București`}
+  description={practice.short}
+  offsetHeader
+>
+  <article>
+    <header class="bg-ink-950">
+      <div class="wrap py-16 lg:py-24">
+        <nav class="text-[14px] text-muted" aria-label="Firimituri">
+          <a href="/" class="underline-offset-4 hover:text-paper hover:underline">Acasă</a>
+          <span class="px-2 text-paper/25">/</span>
+          <a href="/#domenii" class="underline-offset-4 hover:text-paper hover:underline">
+            Domenii
+          </a>
+          <span class="px-2 text-paper/25">/</span>
+          <span class="text-paper/70">{practice.title}</span>
+        </nav>
+
+        <p class="serif mt-10 text-[15px] text-brass-500">{practice.num}</p>
+        <h1 class="mt-3 max-w-[18ch] text-[clamp(2.4rem,5.5vw,4rem)]">{practice.title}</h1>
+        <p class="mt-7 max-w-[58ch] text-[18px] leading-relaxed text-paper/70">
+          {practice.short}
+        </p>
+      </div>
+    </header>
+
+    <section class="bg-paper text-ink-900">
+      <div class="wrap grid gap-14 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 lg:py-24">
+        <div>
+          <p class="serif text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.4]">
+            {practice.intro}
+          </p>
+
+          <h2 class="mt-14 text-[1.8rem]">Ce facem, concret</h2>
+          <ul class="mt-6">
+            {practice.items.map((item) => (
+              <li class="flex gap-4 border-t border-ink-900/15 py-4 text-[16.5px] leading-relaxed last:border-b">
+                <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-brass-500"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <p class="mt-8 border-l-2 border-brass-500 pl-5 text-[16px] leading-relaxed text-ink-900/70">
+            {practice.note}
+          </p>
+        </div>
+
+        <aside class="lg:pt-2">
+          <div class="rounded-card border border-ink-900/15 bg-paper-2 p-8">
+            <h2 class="text-[1.4rem]">Ai un termen care curge?</h2>
+            <p class="mt-3 text-[15.5px] leading-relaxed text-ink-900/70">
+              Sună înainte să trimiți formularul. Verificăm împreună, la telefon, dacă
+              termenul din actul tău este încă în curs.
+            </p>
+            <a
+              href={site.phoneHref}
+              class="mt-6 block rounded-[10px] bg-ink-900 px-5 py-3.5 text-center text-[15px] font-medium text-paper transition-colors hover:bg-ink-800"
+            >
+              {site.phone}
+            </a>
+            <a
+              href="#contact"
+              class="mt-3 block rounded-[10px] border border-ink-900/20 px-5 py-3.5 text-center text-[15px] text-ink-900 transition-colors hover:border-brass-500"
+            >
+              Programează o consultație
+            </a>
+          </div>
+
+          <Image
+            src={sediu}
+            alt="Clădirea în care se află cabinetul"
+            widths={[500, 800]}
+            sizes="(max-width: 1024px) 100vw, 30vw"
+            class="mt-8 aspect-[4/5] w-full rounded-card object-cover"
+            loading="lazy"
+          />
+        </aside>
+      </div>
+    </section>
+
+    <section class="bg-paper-2 text-ink-900">
+      <div class="wrap py-16 lg:py-20">
+        <h2 class="text-[1.8rem]">Alte domenii</h2>
+        <ul class="mt-8 grid gap-px overflow-hidden rounded-card bg-ink-900/15 sm:grid-cols-2 lg:grid-cols-4">
+          {others.map((p) => (
+            <li>
+              <a href={`/domenii/${p.slug}`} class="block h-full bg-paper-2 p-7 transition-colors hover:bg-paper">
+                <span class="serif text-[14px] text-brass-500">{p.num}</span>
+                <h3 class="mt-3 text-[1.25rem] leading-tight">{p.title}</h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <ContactForm />
+  </article>
+</Layout>

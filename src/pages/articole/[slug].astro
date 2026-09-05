@@ -1,0 +1,143 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { articles, site, practices } from "../../data/site";
+import articolImg from "../../assets/articol.jpg";
+
+export function getStaticPaths() {
+  return articles.map((a) => ({ params: { slug: a.slug }, props: { article: a } }));
+}
+
+const { article } = Astro.props;
+const others = articles.filter((a) => a.slug !== article.slug);
+const related = practices.find((p) => p.title === article.tag);
+---
+
+<Layout title={`${article.title} — Cabinet de avocatură ${site.name}`} description={article.excerpt} offsetHeader>
+  <article>
+    <header class="bg-ink-950">
+      <div class="wrap py-16 lg:py-24">
+        <nav class="text-[14px] text-muted" aria-label="Firimituri">
+          <a href="/" class="underline-offset-4 hover:text-paper hover:underline">Acasă</a>
+          <span class="px-2 text-paper/25">/</span>
+          <a href="/articole" class="underline-offset-4 hover:text-paper hover:underline">
+            Articole
+          </a>
+          <span class="px-2 text-paper/25">/</span>
+          <span class="text-paper/70">{article.tag}</span>
+        </nav>
+
+        <h1 class="mt-10 max-w-[24ch] text-[clamp(2.1rem,4.6vw,3.4rem)]">{article.title}</h1>
+
+        <p class="mt-7 text-[14.5px] text-muted">
+          {article.tag} <span class="text-paper/25">·</span>
+          <time datetime={article.iso}>{article.date}</time>
+          <span class="text-paper/25">·</span> {article.read} de citit
+        </p>
+      </div>
+    </header>
+
+    {article.slug === articles[0].slug && (
+      <div class="bg-paper pt-12">
+        <div class="wrap">
+          <Image
+            src={articolImg}
+            alt="Semnarea unui act pe un birou de lemn"
+            widths={[600, 900, 1400]}
+            sizes="(max-width: 900px) 100vw, 860px"
+            class="mx-auto w-full max-w-[860px] rounded-card"
+            loading="eager"
+          />
+        </div>
+      </div>
+    )}
+
+    <div class="bg-paper text-ink-900">
+      <div class="wrap grid gap-14 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:py-20">
+        <div>
+          <p class="serif text-[clamp(1.35rem,2.5vw,1.8rem)] leading-[1.42]">{article.lead}</p>
+
+          {article.body.map((b) => (
+            <>
+              {b.type === "h" && <h2 class="mt-12 text-[1.7rem] leading-tight">{b.text}</h2>}
+              {b.type === "p" && (
+                <p class="mt-5 max-w-[68ch] text-[17px] leading-[1.7] text-ink-900/80">
+                  {b.text}
+                </p>
+              )}
+              {b.type === "ul" && (
+                <ul class="mt-6">
+                  {b.items.map((it) => (
+                    <li class="flex gap-4 border-t border-ink-900/15 py-3.5 text-[16.5px] leading-relaxed last:border-b">
+                      <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-brass-500"></span>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {b.type === "note" && (
+                <p class="mt-10 border-l-2 border-brass-500 pl-5 text-[15px] leading-relaxed text-ink-900/60">
+                  {b.text}
+                </p>
+              )}
+            </>
+          ))}
+        </div>
+
+        <aside class="lg:pt-2">
+          <div class="rounded-card border border-ink-900/15 bg-paper-2 p-8 lg:sticky lg:top-[calc(var(--header-h)+32px)]">
+            <h2 class="text-[1.4rem]">Situația ta e mai complicată de atât?</h2>
+            <p class="mt-3 text-[15.5px] leading-relaxed text-ink-900/70">
+              Un articol nu poate acoperi toate cazurile. Într-o oră de consultație vedem
+              actele tale și îți spunem exact unde stai.
+            </p>
+            <a
+              href={site.phoneHref}
+              class="mt-6 block rounded-[10px] bg-ink-900 px-5 py-3.5 text-center text-[15px] font-medium text-paper transition-colors hover:bg-ink-800"
+            >
+              {site.phone}
+            </a>
+            <a
+              href="/#termene"
+              class="mt-3 block rounded-[10px] border border-ink-900/20 px-5 py-3.5 text-center text-[15px] transition-colors hover:border-brass-500"
+            >
+              Verifică-ți termenul
+            </a>
+
+            {related && (
+              <p class="mt-6 border-t border-ink-900/15 pt-5 text-[15px] leading-relaxed text-ink-900/70">
+                Vezi și pagina de{" "}
+                <a
+                  href={`/domenii/${related.slug}`}
+                  class="text-brass-600 underline underline-offset-4"
+                >
+                  {related.title.toLowerCase()}
+                </a>.
+              </p>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section class="bg-paper-2 text-ink-900">
+      <div class="wrap py-16 lg:py-20">
+        <h2 class="text-[1.8rem]">Alte articole</h2>
+        <ul class="mt-8">
+          {others.map((a) => (
+            <li class="border-t border-ink-900/15 last:border-b">
+              <a href={`/articole/${a.slug}`} class="group block py-7">
+                <p class="text-[13.5px] text-ink-900/60">
+                  {a.tag} <span class="text-ink-900/30">·</span> {a.date}
+                </p>
+                <h3 class="mt-2 max-w-[36ch] text-[1.35rem] leading-snug underline-offset-4 group-hover:underline">
+                  {a.title}
+                </h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </article>
+</Layout>

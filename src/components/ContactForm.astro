@@ -1,0 +1,238 @@
+---
+import { Image } from "astro:assets";
+import { site, practices } from "../data/site";
+import harta from "../assets/harta.jpg";
+---
+
+<section id="contact" class="rule bg-ink-950">
+  <div class="wrap grid gap-14 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:py-28">
+    <div>
+      <h2 class="reveal text-[clamp(2rem,4vw,3rem)]">Programează o consultație</h2>
+      <p class="reveal mt-6 max-w-[52ch] text-[17px] leading-relaxed text-paper/70">
+        Scrie pe scurt despre ce este vorba. Îți răspundem în aceeași zi lucrătoare, cu o
+        oră propusă și cu lista actelor pe care merită să le aduci.
+      </p>
+
+      <form id="consult-form" class="reveal mt-10 grid gap-5 sm:grid-cols-2" novalidate>
+        <div class="sm:col-span-1">
+          <label for="nume" class="block text-[14px] text-muted">Nume și prenume</label>
+          <input
+            id="nume"
+            name="nume"
+            type="text"
+            required
+            autocomplete="name"
+            class="mt-2 w-full rounded-[10px] border border-paper/15 bg-ink-900 px-4 py-3.5 text-[16px] text-paper placeholder:text-paper/45 focus:border-brass-500 focus:outline-none"
+            placeholder="Andreea Popescu"
+          />
+          <p class="mt-1.5 hidden text-[13px] text-brass-300" data-error-for="nume">
+            Completează numele.
+          </p>
+        </div>
+
+        <div class="sm:col-span-1">
+          <label for="telefon" class="block text-[14px] text-muted">Telefon</label>
+          <input
+            id="telefon"
+            name="telefon"
+            type="tel"
+            required
+            autocomplete="tel"
+            inputmode="tel"
+            class="mt-2 w-full rounded-[10px] border border-paper/15 bg-ink-900 px-4 py-3.5 text-[16px] text-paper placeholder:text-paper/45 focus:border-brass-500 focus:outline-none"
+            placeholder="07xx xxx xxx"
+          />
+          <p class="mt-1.5 hidden text-[13px] text-brass-300" data-error-for="telefon">
+            Un număr de telefon valid, ca să te putem suna.
+          </p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="domeniu" class="block text-[14px] text-muted">Despre ce este vorba</label>
+          <select
+            id="domeniu"
+            name="domeniu"
+            class="select-caret mt-2 w-full appearance-none rounded-[10px] border border-paper/15 bg-ink-900 px-4 py-3.5 pr-11 text-[16px] text-paper focus:border-brass-500 focus:outline-none"
+          >
+            <option value="">Alege domeniul (opțional)</option>
+            {practices.map((p) => <option value={p.slug}>{p.title}</option>)}
+            <option value="altceva">Altceva / nu știu sigur</option>
+          </select>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="mesaj" class="block text-[14px] text-muted">Descrierea situației</label>
+          <textarea
+            id="mesaj"
+            name="mesaj"
+            rows="5"
+            required
+            class="mt-2 w-full rounded-[10px] border border-paper/15 bg-ink-900 px-4 py-3.5 text-[16px] leading-relaxed text-paper placeholder:text-paper/45 focus:border-brass-500 focus:outline-none"
+            placeholder="Câteva rânduri sunt suficiente. Dacă există termene care curg (citație, comunicare de la executor, decizie de concediere), scrie și data de pe act."
+          ></textarea>
+          <p class="mt-1.5 hidden text-[13px] text-brass-300" data-error-for="mesaj">
+            Scrie câteva rânduri despre situație.
+          </p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="flex cursor-pointer items-start gap-3 text-[14.5px] leading-relaxed text-paper/60">
+            <input
+              type="checkbox"
+              name="acord"
+              required
+              class="mt-1 h-4 w-4 shrink-0 accent-brass-500"
+            />
+            <span>
+              Sunt de acord ca datele trimise să fie folosite exclusiv pentru a fi contactat
+              în legătură cu această solicitare.
+            </span>
+          </label>
+          <p class="mt-1.5 hidden text-[13px] text-brass-300" data-error-for="acord">
+            Bifează acordul ca să putem răspunde.
+          </p>
+        </div>
+
+        <div class="sm:col-span-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            type="submit"
+            class="rounded-[10px] bg-brass-500 px-7 py-4 text-[15px] font-medium text-ink-950 transition-colors hover:bg-brass-400"
+          >
+            Trimite solicitarea
+          </button>
+          <a
+            href={site.whatsapp}
+            class="rounded-[10px] border border-paper/20 px-7 py-4 text-center text-[15px] text-paper transition-colors hover:border-brass-500 hover:text-brass-300"
+          >
+            Sau scrie pe WhatsApp
+          </a>
+        </div>
+      </form>
+
+      <div
+        id="consult-done"
+        class="reveal mt-10 hidden rounded-card border border-brass-500/40 bg-ink-900 p-8"
+        role="status"
+      >
+        <h3 class="text-[1.5rem]">Am primit solicitarea.</h3>
+        <p class="mt-3 max-w-[50ch] text-[16px] leading-relaxed text-paper/70">
+          Te sunăm în aceeași zi lucrătoare, la numărul lăsat. Dacă situația este urgentă,
+          sună direct la <a href={site.phoneHref} class="text-brass-300 underline underline-offset-4">{site.phone}</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="rounded-card border border-paper/10 bg-ink-900 p-8 lg:p-10">
+        <h3 class="text-[1.5rem]">Cabinetul</h3>
+        <address class="mt-6 space-y-5 text-[16px] not-italic">
+          <div>
+            <p class="text-[14px] text-muted">Adresă</p>
+            <a
+              href={site.mapsUrl}
+              class="mt-1 block text-paper/85 underline-offset-4 hover:underline"
+            >
+              {site.address}
+            </a>
+          </div>
+          <div>
+            <p class="text-[14px] text-muted">Telefon</p>
+            <a
+              href={site.phoneHref}
+              class="mt-1 block tabular-nums text-paper/85 underline-offset-4 hover:underline"
+            >
+              {site.phone}
+            </a>
+          </div>
+          <div>
+            <p class="text-[14px] text-muted">E-mail</p>
+            <a
+              href={`mailto:${site.email}`}
+              class="mt-1 block text-paper/85 underline-offset-4 hover:underline"
+            >
+              {site.email}
+            </a>
+          </div>
+        </address>
+
+        <dl class="mt-7 border-t border-paper/10 pt-6 text-[15px]">
+          {site.schedule.map((s) => (
+            <div class="flex justify-between gap-4 py-1.5">
+              <dt class="text-paper/60">{s.d}</dt>
+              <dd class="tabular-nums text-paper/85">{s.h}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <p class="mt-6 text-[14.5px] leading-relaxed text-muted">
+          Intrarea este din curte, etajul 2. Parcarea pe stradă este cu plată între 08:00 și
+          20:00.
+        </p>
+      </div>
+
+      <figure class="mt-6">
+        <a
+          href={site.mapsUrl}
+          class="group block overflow-hidden rounded-card border border-paper/10"
+        >
+          <Image
+            src={harta}
+            alt={`Harta zonei în care se află cabinetul: ${site.address}`}
+            widths={[500, 1000]}
+            sizes="(max-width: 1024px) 100vw, 30vw"
+            class="h-[280px] w-full object-cover opacity-85 transition-opacity duration-200 group-hover:opacity-100"
+            loading="lazy"
+          />
+        </a>
+        <figcaption class="mt-3 flex flex-wrap justify-between gap-x-4 gap-y-1 text-[13px] text-muted">
+          <a href={site.mapsUrl} class="underline-offset-4 hover:text-paper hover:underline">
+            Deschide în hărți
+          </a>
+          <span>Hartă © colaboratorii OpenStreetMap</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script>
+  // TODO(real): trimitere reală prin Resend (sau Supabase Edge Function) + notificare pe WhatsApp.
+  const form = document.getElementById("consult-form") as HTMLFormElement | null;
+  const done = document.getElementById("consult-done");
+
+  const showError = (name: string, show: boolean) => {
+    const el = form?.querySelector(`[data-error-for="${name}"]`);
+    el?.classList.toggle("hidden", !show);
+  };
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form) return;
+
+    const data = new FormData(form);
+    const nume = String(data.get("nume") ?? "").trim();
+    const telefon = String(data.get("telefon") ?? "").replace(/\s+/g, "");
+    const mesaj = String(data.get("mesaj") ?? "").trim();
+    const acord = data.get("acord") !== null;
+
+    const errors = {
+      nume: nume.length < 3,
+      telefon: !/^(\+4)?0[237]\d{8}$/.test(telefon),
+      mesaj: mesaj.length < 15,
+      acord: !acord,
+    };
+
+    (Object.keys(errors) as (keyof typeof errors)[]).forEach((k) => showError(k, errors[k]));
+
+    const firstError = (Object.keys(errors) as (keyof typeof errors)[]).find((k) => errors[k]);
+    if (firstError) {
+      (form.querySelector(`[name="${firstError}"]`) as HTMLElement | null)?.focus();
+      return;
+    }
+
+    form.classList.add("hidden");
+    done?.classList.remove("hidden");
+    done?.classList.add("is-in");
+    done?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+</script>

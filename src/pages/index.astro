@@ -1,0 +1,471 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import DeadlineChecker from "../components/DeadlineChecker.astro";
+import {
+  site,
+  practices,
+  faq,
+  testimonials,
+  articles,
+  fees,
+  cases,
+} from "../data/site";
+
+import hero from "../assets/hero.jpg";
+import avocat from "../assets/avocat.jpg";
+import acte from "../assets/acte.jpg";
+import textura from "../assets/textura.jpg";
+import articolImg from "../assets/articol.jpg";
+
+const facts = [
+  { k: "din 2011", v: "înscris în Baroul București" },
+  { k: "peste 400", v: "dosare instrumentate" },
+  { k: "4 ore", v: "termenul nostru de răspuns" },
+  { k: "4,9 / 5", v: "din 63 de recenzii Google" },
+];
+
+const steps = [
+  {
+    n: "01",
+    t: "Ne suni sau scrii",
+    d: "Îți răspundem în aceeași zi lucrătoare. Dacă problema se rezolvă dintr-un telefon, ți-o spunem și nu plătești nimic.",
+  },
+  {
+    n: "02",
+    t: "Consultația, cu actele pe masă",
+    d: "O oră, la birou sau video. Îți spunem ce șanse ai, ce termene curg deja și cât costă fiecare etapă. Fără estimări vagi.",
+  },
+  {
+    n: "03",
+    t: "Contract și onorariu în scris",
+    d: "Semnăm contractul de asistență juridică, cu onorariul stabilit înainte de a începe munca. Nu apar sume peste ce am convenit.",
+  },
+  {
+    n: "04",
+    t: "Te ținem la curent",
+    d: "Primești un mesaj după fiecare termen, în aceeași zi, în limbaj normal. Nu trebuie să suni tu ca să afli ce s-a întâmplat.",
+  },
+];
+---
+
+<Layout
+  title={`Cabinet de avocatură ${site.name} — avocat în București | Penal, familie, muncă`}
+  description="Cabinet de avocat în București, Baroul București din 2011. Drept penal, dreptul familiei, dreptul muncii, executări silite, imobiliar. Consultație 350 lei, scăzuți din onorariu."
+>
+  <!-- HERO -->
+  <section class="relative flex flex-col bg-ink-950 lg:block">
+    <div class="wrap relative z-10 order-1">
+      <div
+        class="flex flex-col justify-center pt-[calc(var(--header-h)+56px)] pb-16 lg:min-h-[92svh] lg:w-[54%] lg:py-[calc(var(--header-h)+48px)] lg:pr-14"
+      >
+        <p class="text-[14px] text-brass-400">
+          {site.bar} · cabinet individual din {site.since}
+        </p>
+
+        <h1 class="mt-6 max-w-[16ch] text-[clamp(2.6rem,6.2vw,4.4rem)]">
+          Îți spunem de la <span class="italic text-brass-300">început</span> ce șanse ai
+          și cât costă.
+        </h1>
+
+        <p class="mt-7 max-w-[52ch] text-[17.5px] leading-relaxed text-paper/75">
+          Cabinet de avocatură în București. Lucrăm pe drept penal, dreptul familiei,
+          dreptul muncii, executări silite și imobiliar. Prima consultație durează o oră,
+          costă 350 de lei și se scade integral din onorariu dacă mergem mai departe împreună.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a
+            href="#contact"
+            class="rounded-[10px] bg-brass-500 px-7 py-4 text-center text-[15px] font-medium text-ink-950 transition-colors hover:bg-brass-400"
+          >
+            Programează o consultație
+          </a>
+          <a
+            href={site.phoneHref}
+            class="rounded-[10px] border border-paper/20 px-7 py-4 text-center text-[15px] text-paper transition-colors hover:border-brass-500 hover:text-brass-300"
+          >
+            Sună la {site.phone}
+          </a>
+        </div>
+
+        <p class="mt-6 text-[14px] text-muted">
+          Pentru audieri și rețineri, telefonul este disponibil și în afara programului.
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="relative order-2 h-[56svh] min-h-[320px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:min-h-0 lg:w-[46%]"
+    >
+      <Image
+        src={hero}
+        alt="Interiorul cabinetului: bibliotecă cu volume de drept, birou de lucru și canapea de piele"
+        widths={[700, 1100, 1600]}
+        sizes="(max-width: 1024px) 100vw, 47vw"
+        class="absolute inset-0 h-full w-full object-cover"
+        style="object-position: 50% 45%"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent lg:bg-gradient-to-r lg:from-ink-950 lg:via-ink-950/10 lg:to-transparent"
+      >
+      </div>
+    </div>
+  </section>
+
+  <!-- CIFRE -->
+  <section class="rule bg-ink-900">
+    <dl class="wrap grid grid-cols-2 gap-x-8 gap-y-9 py-12 lg:grid-cols-4 lg:py-14">
+      {facts.map((f) => (
+        <div>
+          <dt class="serif text-[clamp(1.5rem,2.4vw,2rem)] text-brass-300">{f.k}</dt>
+          <dd class="mt-1.5 text-[14.5px] leading-snug text-paper/60">{f.v}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- DOMENII -->
+  <section id="domenii" class="bg-paper text-ink-900">
+    <div class="wrap py-20 lg:py-28">
+      <div class="reveal grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-end">
+        <h2 class="text-[clamp(2rem,4vw,3rem)]">Domeniile în care lucrăm</h2>
+        <p class="max-w-[58ch] text-[17px] leading-relaxed text-ink-900/70">
+          Nu acoperim tot dreptul. În domeniile de mai jos avem dosare în lucru în fiecare
+          lună, iar dacă cererea ta iese din ele îți recomandăm un coleg care se ocupă
+          exact de asta.
+        </p>
+      </div>
+
+      <ul class="mt-14">
+        {practices.map((p) => (
+          <li class="reveal border-t border-ink-900/15 last:border-b">
+            <a
+              href={`/domenii/${p.slug}`}
+              class="group grid grid-cols-[auto_1fr] items-start gap-x-6 gap-y-3 py-7 transition-colors hover:bg-ink-900/[0.035] md:grid-cols-[auto_minmax(0,15rem)_1fr_auto] md:items-center md:gap-x-10 md:px-3"
+            >
+              <span class="serif w-8 pt-1 text-[15px] text-brass-500 md:pt-0">{p.num}</span>
+              <h3 class="text-[clamp(1.35rem,2.2vw,1.7rem)] leading-tight">{p.title}</h3>
+              <p class="col-span-2 max-w-[62ch] text-[15.5px] leading-relaxed text-ink-900/65 md:col-span-1">
+                {p.short}
+              </p>
+              <span
+                class="col-span-2 text-[14px] text-brass-500 transition-transform duration-200 group-hover:translate-x-1 md:col-span-1 md:justify-self-end"
+              >
+                Detalii
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <DeadlineChecker />
+
+  <!-- DESPRE -->
+  <section id="despre" class="bg-ink-950">
+    <div class="wrap grid gap-14 py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:py-28">
+      <div class="reveal">
+        <Image
+          src={avocat}
+          alt={`${site.lawyer} la birou, lucrând pe un dosar`}
+          widths={[600, 900, 1300]}
+          sizes="(max-width: 1024px) 100vw, 40vw"
+          class="aspect-[4/5] w-full rounded-card object-cover"
+          style="object-position: 50% 58%"
+          loading="lazy"
+        />
+        <div class="mt-8 grid grid-cols-2 gap-6 text-[14.5px]">
+          <div>
+            <p class="text-muted">Baroul</p>
+            <p class="mt-1 text-paper/85">București, din 2011</p>
+          </div>
+          <div>
+            <p class="text-muted">Formare</p>
+            <p class="mt-1 text-paper/85">Drept, Universitatea din București</p>
+          </div>
+          <div>
+            <p class="text-muted">Limbi de lucru</p>
+            <p class="mt-1 text-paper/85">română, engleză</p>
+          </div>
+          <div>
+            <p class="text-muted">Instanțe</p>
+            <p class="mt-1 text-paper/85">București, Ilfov, deplasări în țară</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h2 class="text-[clamp(2rem,4vw,3rem)]">{site.lawyer}</h2>
+        <p class="mt-6 text-[17.5px] leading-relaxed text-paper/75">
+          Am început în 2011, la un cabinet care lucra aproape numai penal. Primii ani i-am
+          petrecut prin secții de poliție, la audieri de dimineață, unde am văzut cât de mult
+          contează primele ore dintr-un dosar și cât de puțin înțelege omul din ce i se
+          întâmplă.
+        </p>
+        <p class="mt-5 text-[17.5px] leading-relaxed text-paper/75">
+          De atunci lucrez singur, cu un număr limitat de dosare în paralel. Prefer să refuz
+          un caz decât să îl iau și să nu îl pot duce cum trebuie. Nu promit niciodată
+          câștigarea unui proces: îți spun, pe actele tale, ce șanse reale ai, cât durează și
+          cât te costă.
+        </p>
+
+        <ul class="mt-10 space-y-0">
+          {[
+            "Îți răspund personal. Nu ai de-a face cu un secretariat care preia mesaje.",
+            "Onorariul se stabilește în scris, înainte de a începe munca.",
+            "Primești un mesaj după fiecare termen, în aceeași zi.",
+            "Dacă un caz nu merită dus în instanță, îți spun asta la prima întâlnire.",
+          ].map((line) => (
+            <li class="rule flex gap-4 py-4 text-[16px] text-paper/80 last:border-b last:border-paper/10">
+              <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-brass-400"></span>
+              {line}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCES -->
+  <section id="proces" class="bg-paper-2 text-ink-900">
+    <div class="wrap py-20 lg:py-28">
+      <div class="reveal grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-end">
+        <h2 class="text-[clamp(2rem,4vw,3rem)]">Cum decurge o colaborare</h2>
+        <p class="max-w-[58ch] text-[17px] leading-relaxed text-ink-900/70">
+          Aceiași patru pași în fiecare dosar, de la primul telefon până la hotărârea
+          definitivă. Fără surprize pe parcurs.
+        </p>
+      </div>
+
+      <ol class="mt-14 grid gap-px overflow-hidden rounded-card bg-ink-900/15 md:grid-cols-2 xl:grid-cols-4">
+        {steps.map((s) => (
+          <li class="reveal bg-paper-2 p-8 lg:p-9">
+            <span class="serif text-[15px] tabular-nums text-brass-500">{s.n}</span>
+            <h3 class="mt-4 text-[1.35rem] leading-tight">{s.t}</h3>
+            <p class="mt-3 text-[15.5px] leading-relaxed text-ink-900/70">{s.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALE -->
+  <section class="relative isolate overflow-hidden bg-ink-950">
+    <Image
+      src={textura}
+      alt=""
+      aria-hidden="true"
+      widths={[1200, 2000]}
+      sizes="100vw"
+      class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25"
+      style="object-position: 50% 45%"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950 via-ink-950/85 to-ink-950"></div>
+
+    <div class="wrap py-20 lg:py-28">
+      <h2 class="reveal max-w-[24ch] text-[clamp(2rem,4vw,3rem)]">Dosare închise</h2>
+      <p class="reveal mt-6 max-w-[62ch] text-[17px] leading-relaxed text-paper/70">
+        Câteva dosare încheiate, prezentate anonimizat. Le publicăm ca să vezi tipul de
+        situații pe care le ducem, nu ca să promitem un rezultat: fiecare caz stă pe actele
+        lui, iar o soluție obținută într-un dosar nu se repetă automat în altul.
+      </p>
+
+      <ul class="mt-12">
+        {cases.map((c) => (
+          <li class="reveal border-t border-paper/12 last:border-b">
+            <div class="grid gap-x-10 gap-y-3 py-7 md:grid-cols-[minmax(0,13rem)_1fr_minmax(0,15rem)]">
+              <div>
+                <p class="serif text-[1.15rem] text-brass-300">{c.area}</p>
+                <p class="mt-1 text-[14px] text-muted">{c.court} · {c.year}</p>
+              </div>
+              <p class="max-w-[52ch] text-[15.5px] leading-relaxed text-paper/70">
+                {c.problem}
+              </p>
+              <div class="md:text-right">
+                <p class="text-[15.5px] leading-relaxed text-paper/90">{c.result}</p>
+                <p class="mt-1.5 text-[14px] tabular-nums text-muted">{c.duration}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="reveal mt-24 max-w-[20ch] text-[clamp(2rem,4vw,3rem)]">
+        Ce spun oamenii cu care am lucrat
+      </h2>
+
+      <div class="mt-14 grid gap-x-14 gap-y-12 md:grid-cols-2">
+        {testimonials.map((t) => (
+          <figure class="reveal">
+            <blockquote class="serif text-[clamp(1.2rem,1.9vw,1.5rem)] leading-[1.45] text-paper/90">
+              „{t.text}”
+            </blockquote>
+            <figcaption class="mt-5 text-[14.5px] text-muted">
+              {t.author} <span class="text-paper/25">·</span> {t.case}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <p class="reveal mt-14 text-[14.5px] text-muted">
+        Recenzii preluate din profilul Google al cabinetului, publicate cu acordul clienților
+        și cu numele prescurtat.
+      </p>
+    </div>
+  </section>
+
+  <!-- ONORARII -->
+  <section id="onorarii" class="bg-paper text-ink-900">
+    <div class="wrap grid gap-14 py-20 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20 lg:py-28">
+      <div>
+        <h2 class="reveal text-[clamp(2rem,4vw,3rem)]">Onorarii</h2>
+        <p class="reveal mt-6 max-w-[58ch] text-[17px] leading-relaxed text-ink-900/70">
+          Le publicăm pentru că întrebarea „cât costă” vine oricum în primele două minute
+          ale oricărei discuții. Sumele de mai jos sunt puncte de plecare; onorariul final
+          se scrie în contractul de asistență juridică, înainte de a începe munca.
+        </p>
+
+        <dl class="mt-12">
+          {fees.map((f) => (
+            <div class="reveal grid grid-cols-[1fr_auto] items-baseline gap-x-8 gap-y-2 border-t border-ink-900/15 py-6 last:border-b">
+              <dt class="serif text-[1.3rem]">{f.label}</dt>
+              <dd class="serif text-right text-[1.3rem] text-brass-500">
+                {f.price}
+                <span class="ml-1 font-sans text-[13px] text-ink-900/50">/ {f.unit}</span>
+              </dd>
+              <p class="col-span-2 max-w-[60ch] text-[15px] leading-relaxed text-ink-900/60">
+                {f.detail}
+              </p>
+            </div>
+          ))}
+        </dl>
+
+        <p class="reveal mt-8 text-[14.5px] text-ink-900/65">
+          La sumele de mai sus se adaugă taxele de timbru, taxele notariale și, unde este
+          cazul, onorariile de expert. Ți le estimăm separat, la consultație.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <Image
+          src={acte}
+          alt="Volume de drept și acte pe un birou de lemn"
+          widths={[500, 800, 1100]}
+          sizes="(max-width: 1024px) 100vw, 30vw"
+          class="h-full w-full rounded-card object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="intrebari" class="bg-paper-2 text-ink-900">
+    <div class="wrap grid gap-12 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:py-28">
+      <div class="reveal self-start lg:sticky lg:top-[calc(var(--header-h)+40px)]">
+        <h2 class="text-[clamp(2rem,4vw,3rem)]">Întrebări pe care le primim des</h2>
+        <p class="mt-6 max-w-[40ch] text-[17px] leading-relaxed text-ink-900/70">
+          Dacă a ta nu este aici, sună. Răspunsul la telefon este gratuit și durează, de
+          obicei, mai puțin de cinci minute.
+        </p>
+      </div>
+
+      <div class="reveal">
+        {faq.map((f) => (
+          <details class="group border-t border-ink-900/15 last:border-b">
+            <summary
+              class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-[1.1rem] leading-snug [&::-webkit-details-marker]:hidden"
+            >
+              <span class="serif text-[1.2rem]">{f.q}</span>
+              <span
+                class="relative mt-2 h-3 w-3 shrink-0 text-brass-500 transition-transform duration-200 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <span class="absolute inset-x-0 top-1/2 h-px bg-current"></span>
+                <span class="absolute inset-y-0 left-1/2 w-px bg-current"></span>
+              </span>
+            </summary>
+            <p class="max-w-[65ch] pb-7 text-[16px] leading-relaxed text-ink-900/70">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICOLE -->
+  <section id="articole" class="bg-paper text-ink-900">
+    <div class="wrap py-20 lg:py-28">
+      <div class="reveal flex flex-wrap items-end justify-between gap-6">
+        <h2 class="text-[clamp(2rem,4vw,3rem)]">Articole</h2>
+        <a
+          href="/articole"
+          class="text-[15px] text-brass-500 underline-offset-4 hover:underline"
+        >
+          Toate articolele
+        </a>
+      </div>
+
+      <div class="mt-14 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+        <article class="reveal">
+          <a href={`/articole/${articles[0].slug}`} class="group block">
+            <Image
+              src={articolImg}
+              alt="Semnarea unui act pe un birou de lemn"
+              widths={[600, 900, 1400]}
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              class="aspect-[3/2] w-full rounded-card object-cover"
+              loading="lazy"
+            />
+            <p class="mt-6 text-[13.5px] text-ink-900/60">
+              {articles[0].tag} <span class="text-ink-900/30">·</span> {articles[0].date}
+              <span class="text-ink-900/30">·</span> {articles[0].read} de citit
+            </p>
+            <h3
+              class="mt-3 text-[clamp(1.5rem,2.4vw,1.9rem)] leading-snug underline-offset-4 group-hover:underline"
+            >
+              {articles[0].title}
+            </h3>
+          </a>
+          <p class="mt-3 max-w-[52ch] text-[16px] leading-relaxed text-ink-900/70">
+            {articles[0].excerpt}
+          </p>
+        </article>
+
+        <div class="lg:pt-2">
+          {articles.slice(1).map((a) => (
+            <article class="reveal border-t border-ink-900/15 py-8 last:border-b">
+              <a href={`/articole/${a.slug}`} class="group block">
+                <p class="text-[13.5px] text-ink-900/60">
+                  {a.tag} <span class="text-ink-900/30">·</span> {a.date}
+                  <span class="text-ink-900/30">·</span> {a.read} de citit
+                </p>
+                <h3 class="mt-3 text-[1.35rem] leading-snug underline-offset-4 group-hover:underline">
+                  {a.title}
+                </h3>
+              </a>
+              <p class="mt-3 max-w-[54ch] text-[15.5px] leading-relaxed text-ink-900/70">
+                {a.excerpt}
+              </p>
+            </article>
+          ))}
+
+          <a
+            href="#contact"
+            class="mt-8 inline-block text-[15px] text-brass-500 underline-offset-4 hover:underline"
+          >
+            Ai o întrebare care nu are răspuns aici? Scrie-ne.
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <ContactForm />
+</Layout>

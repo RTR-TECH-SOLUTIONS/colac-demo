@@ -1,0 +1,182 @@
+---
+import { deadlines, site } from "../data/site";
+---
+
+<section id="termene" class="bg-paper-2 text-ink-900">
+  <div class="wrap grid gap-14 py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:py-28">
+    <div class="reveal self-start lg:sticky lg:top-[calc(var(--header-h)+40px)]">
+      <h2 class="text-[clamp(2rem,4vw,3rem)]">Verifică-ți termenul</h2>
+      <p class="mt-6 max-w-[44ch] text-[17px] leading-relaxed text-ink-900/70">
+        Majoritatea drepturilor se pierd pentru că trece un termen, nu pentru că omul nu
+        avea dreptate. Alege actul pe care l-ai primit și data de pe el, ca să vezi cât timp
+        îți mai rămâne.
+      </p>
+      <p class="mt-6 max-w-[44ch] text-[15px] leading-relaxed text-ink-900/60">
+        Calculul este orientativ: termenul curge din ziua următoare comunicării, iar dacă
+        ultima zi cade în weekend se prelungește până luni. Sunt situații în care data
+        comunicării se stabilește altfel decât data de pe act.
+      </p>
+    </div>
+
+    <div class="reveal">
+      <form id="deadline-form" class="grid gap-5 sm:grid-cols-[1.35fr_1fr]" novalidate>
+        <div class="sm:col-span-2">
+          <label for="tip-act" class="block text-[14px] text-ink-900/60">
+            Ce act ai primit
+          </label>
+          <select
+            id="tip-act"
+            name="tip"
+            class="caret-ink mt-2 w-full appearance-none rounded-[10px] border border-ink-900/20 bg-paper px-4 py-3.5 pr-11 text-[16px] text-ink-900 focus:border-brass-500 focus:outline-none"
+          >
+            {deadlines.map((d) => <option value={d.id}>{d.label}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label for="data-act" class="block text-[14px] text-ink-900/60">
+            Data comunicării
+          </label>
+          <input
+            id="data-act"
+            name="data"
+            type="date"
+            class="mt-2 w-full rounded-[10px] border border-ink-900/20 bg-paper px-4 py-3.5 text-[16px] text-ink-900 focus:border-brass-500 focus:outline-none"
+          />
+        </div>
+
+        <div class="flex items-end">
+          <button
+            type="submit"
+            class="w-full rounded-[10px] bg-ink-900 px-6 py-3.5 text-[15px] font-medium text-paper transition-colors hover:bg-ink-800"
+          >
+            Calculează
+          </button>
+        </div>
+      </form>
+
+      <p id="deadline-hint" class="mt-4 hidden text-[14px] text-brass-600">
+        Alege data de pe act ca să putem calcula.
+      </p>
+
+      <div
+        id="deadline-result"
+        class="mt-8 hidden rounded-card border border-ink-900/15 bg-paper p-8"
+        role="status"
+        aria-live="polite"
+      >
+        <p id="dl-status" class="serif text-[clamp(1.5rem,3vw,2.1rem)] leading-tight"></p>
+        <p id="dl-detail" class="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-ink-900/70"></p>
+
+        <dl class="mt-7 grid gap-x-10 gap-y-4 border-t border-ink-900/15 pt-6 sm:grid-cols-2">
+          <div>
+            <dt class="text-[13.5px] text-ink-900/55">Termen legal</dt>
+            <dd id="dl-term" class="mt-1 text-[15.5px]"></dd>
+          </div>
+          <div>
+            <dt class="text-[13.5px] text-ink-900/55">Temei</dt>
+            <dd id="dl-law" class="mt-1 text-[15.5px]"></dd>
+          </div>
+          <div class="sm:col-span-2">
+            <dt class="text-[13.5px] text-ink-900/55">Ce urmează</dt>
+            <dd id="dl-next" class="mt-1 max-w-[54ch] text-[15.5px] leading-relaxed"></dd>
+          </div>
+        </dl>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={site.phoneHref}
+            class="rounded-[10px] bg-brass-500 px-6 py-3.5 text-center text-[15px] font-medium text-ink-950 transition-colors hover:bg-brass-400"
+          >
+            Sună la {site.phone}
+          </a>
+          <a
+            id="dl-practice"
+            href="/#domenii"
+            class="rounded-[10px] border border-ink-900/20 px-6 py-3.5 text-center text-[15px] transition-colors hover:border-brass-500"
+          >
+            Citește despre acest domeniu
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { deadlines } from "../data/site";
+
+  const form = document.getElementById("deadline-form") as HTMLFormElement | null;
+  const hint = document.getElementById("deadline-hint");
+  const box = document.getElementById("deadline-result");
+
+  const el = (id: string) => document.getElementById(id) as HTMLElement;
+
+  const fmt = new Intl.DateTimeFormat("ro-RO", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const zile = (n: number) => (n === 1 ? "o zi" : `${n} zile`);
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form) return;
+
+    const data = new FormData(form);
+    const rule = deadlines.find((d) => d.id === String(data.get("tip")));
+    const raw = String(data.get("data") ?? "");
+
+    if (!rule || !raw) {
+      hint?.classList.remove("hidden");
+      return;
+    }
+    hint?.classList.add("hidden");
+
+    // Termenul curge din ziua următoare comunicării.
+    const start = new Date(raw + "T00:00:00");
+    const limit = new Date(start);
+    limit.setDate(limit.getDate() + rule.days);
+
+    // Dacă ultima zi cade în weekend, se prelungește până în prima zi lucrătoare.
+    while (limit.getDay() === 0 || limit.getDay() === 6) {
+      limit.setDate(limit.getDate() + 1);
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const left = Math.round((limit.getTime() - today.getTime()) / 86400000);
+
+    const status = el("dl-status");
+    const detail = el("dl-detail");
+
+    if (left < 0) {
+      status.textContent = `Termenul a expirat pe ${fmt.format(limit)}.`;
+      status.className = "serif text-[clamp(1.5rem,3vw,2.1rem)] leading-tight text-ink-900";
+      detail.textContent =
+        "Nu înseamnă neapărat că nu se mai poate face nimic. Există situații în care se cere repunerea în termen, dacă întârzierea are un motiv temeinic, și situații în care actul nu ți-a fost comunicat valabil, caz în care termenul nici nu a început să curgă. Merită un telefon.";
+    } else if (left <= 3) {
+      status.textContent =
+        left === 0
+          ? "Termenul expiră astăzi."
+          : `Mai ai ${zile(left)}. Termenul expiră pe ${fmt.format(limit)}.`;
+      status.className =
+        "serif text-[clamp(1.5rem,3vw,2.1rem)] leading-tight text-brass-600";
+      detail.textContent =
+        "Este prea puțin pentru un e-mail. Sună direct, ca să apucăm să depunem la timp.";
+    } else {
+      status.textContent = `Mai ai ${zile(left)}. Termenul expiră pe ${fmt.format(limit)}.`;
+      status.className = "serif text-[clamp(1.5rem,3vw,2.1rem)] leading-tight text-ink-900";
+      detail.textContent =
+        "Timp există, dar actele se pregătesc mai bine devreme decât în ultima zi. Adu la consultație actul primit, cu plicul, dacă îl mai ai.";
+    }
+
+    el("dl-term").textContent = `${zile(rule.days)} ${rule.from}`;
+    el("dl-law").textContent = rule.law;
+    el("dl-next").textContent = rule.next;
+    (el("dl-practice") as HTMLAnchorElement).href = `/domenii/${rule.practice}`;
+
+    box?.classList.remove("hidden");
+  });
+</script>

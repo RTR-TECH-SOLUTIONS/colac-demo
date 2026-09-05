@@ -1,0 +1,77 @@
+---
+import { site, practices } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="rule bg-ink-900">
+  <div class="wrap grid gap-12 py-16 md:grid-cols-[1.3fr_1fr_1fr] md:py-20">
+    <div>
+      <span class="serif whitespace-nowrap text-[24px] tracking-[0.14em]">{site.wordmark}</span>
+      <p class="mt-1 text-[12px] uppercase tracking-[0.18em] text-muted">
+        cabinet de avocatură
+      </p>
+      <p class="mt-6 max-w-sm text-[15px] leading-relaxed text-paper/65">
+        Cabinet individual înscris în {site.bar} din {site.since}. Drept penal, civil,
+        familie, muncă, executări silite și imobiliar, pentru persoane fizice și firme mici.
+      </p>
+      <a
+        href={site.whatsapp}
+        class="mt-6 inline-flex items-center gap-2 text-[15px] text-brass-300 transition-colors hover:text-brass-400"
+      >
+        Scrie pe WhatsApp
+      </a>
+    </div>
+
+    <div>
+      <h2 class="serif text-[17px] text-brass-300">Domenii</h2>
+      <ul class="mt-5 space-y-2.5">
+        {practices.slice(0, 6).map((p) => (
+          <li>
+            <a
+              href={`/domenii/${p.slug}`}
+              class="text-[15px] text-paper/70 transition-colors hover:text-paper"
+            >
+              {p.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="serif text-[17px] text-brass-300">Contact</h2>
+      <address class="mt-5 space-y-2.5 text-[15px] not-italic text-paper/70">
+        <p>{site.address}</p>
+        <p>
+          <a href={site.phoneHref} class="tabular-nums transition-colors hover:text-paper">
+            {site.phone}
+          </a>
+        </p>
+        <p>
+          <a href={`mailto:${site.email}`} class="transition-colors hover:text-paper">
+            {site.email}
+          </a>
+        </p>
+      </address>
+      <dl class="mt-6 space-y-1.5 text-[14px] text-paper/65">
+        {site.schedule.map((s) => (
+          <div class="flex justify-between gap-4">
+            <dt>{s.d}</dt>
+            <dd class="tabular-nums">{s.h}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div
+      class="wrap flex flex-col gap-3 py-6 text-[13px] text-paper/60 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {site.legalName}. Toate drepturile rezervate.</p>
+      <p>
+        Informațiile de pe acest site au caracter general și nu constituie consultanță juridică.
+      </p>
+    </div>
+  </div>
+</footer>
